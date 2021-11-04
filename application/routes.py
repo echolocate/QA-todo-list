@@ -28,24 +28,23 @@ def update_task(id, new_description):
     db.session.commit()
     return f"Task {id} updated to {new_description}"
 
-# @app.route('/add')
-# def add():
-#     new_game = Games(name="New Game")
-#     db.session.add(new_game)
-#     db.session.commit()
-#     return "Added new game to database"
+@app.route('/delete/<int:id>')
+def delete(id):
+    id_to_delete = Tasks.query.get(id)
+    db.session.delete(id_to_delete)
+    db.session.commit()
+    return f"Deleted {id}"
 
-# @app.route('/read')
-# def read():
-#     all_games = Games.query.all()
-#     games_string = ""
-#     for game in all_games:
-#         games_string += "<br>"+ game.name
-#     return games_string
+@app.route('/completed/<int:id>')
+def completed(id):
+    task = Tasks.query.get(id)
+    task.completed = True
+    db.session.commit()
+    return f"Task {id} marked as completed"
 
-# @app.route('/update/<name>')
-# def update(name):
-#     first_game = Games.query.first()
-#     first_game.name = name
-#     db.session.commit()
-#     return first_game.name
+@app.route('/incomplete/<id>')
+def incomplete(id):
+    task = Tasks.query.get(id)
+    task.completed = False
+    db.session.commit()
+    return f"Task {id} marked as incomplete"
