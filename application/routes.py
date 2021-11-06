@@ -42,14 +42,14 @@ def delete(id):
     db.session.commit()
     return f"Deleted {id}"
 
-@app.route('/completed/<int:id>')
+@app.route('/complete/task/<int:id>')
 def completed(id):
     task = Tasks.query.get(id)
     task.completed = True
     db.session.commit()
     return f"Task {id} marked as completed"
 
-@app.route('/incomplete/<id>')
+@app.route('/incomplete/task/<id>')
 def incomplete(id):
     task = Tasks.query.get(id)
     task.completed = False
