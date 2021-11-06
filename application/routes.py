@@ -17,8 +17,9 @@ def create_task():
         new_task = Tasks(description=form.description.data)
         db.session.add(new_task)
         db.session.commit()
+        return redirect(url_for('home'))
 
-    return redirect(url_for('home'))
+    return render_template("create_task.html", title="Add a new task", form=form)
 
 @app.route('/read/alltasks')
 def read_tasks():
