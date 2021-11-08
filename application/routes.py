@@ -1,6 +1,7 @@
 from application import app, db
 from application.models import Tasks
 from application.forms import TaskForm
+from application.forms import UpdateForm 
 from flask import render_template, request, redirect, url_for
 
 @app.route('/')
@@ -21,6 +22,29 @@ def create_task():
 
     return render_template("create_task.html", title="Add a new task", form=form)
 
+@app.route('/update/task')
+def update_task():
+    form = UpdateForm()
+    # n = Tasks(id=form.id.data)
+    # task.description = new_description
+    # db.session.commit()
+    return render_template("update_task.html", title="Update task", form=form)
+
+# @app.route('/update/task/<int:id>/<new_description>')
+# def update_task(id, new_description):
+#     task = Tasks.query.get(id)
+#     task.description = new_description
+#     db.session.commit()
+#     return f"Task {id} updated to {new_description}"
+
+
+@app.route('/delete/task/<int:id>')
+def delete(id):
+    id_to_delete = Tasks.query.get(id)
+    db.session.delete(id_to_delete)
+    db.session.commit()
+    return f"Deleted {id}"
+
 @app.route('/read/alltasks')
 def read_tasks():
     all_tasks = Tasks.query.all()
@@ -33,20 +57,6 @@ def read_tasks():
             }
         )
     return tasks_dict
-
-@app.route('/update/task/<int:id>/<new_description>')
-def update_task(id, new_description):
-    task = Tasks.query.get(id)
-    task.description = new_description
-    db.session.commit()
-    return f"Task {id} updated to {new_description}"
-
-@app.route('/delete/task/<int:id>')
-def delete(id):
-    id_to_delete = Tasks.query.get(id)
-    db.session.delete(id_to_delete)
-    db.session.commit()
-    return f"Deleted {id}"
 
 @app.route('/complete/task/<int:id>')
 def completed(id):

@@ -1,6 +1,5 @@
 {% extends "layout.html" %}
 {% block body %}
-
     <h2>Incomplete Tasks</h2>
     {% for task in all_tasks %}
     {% if task.completed == False %}
@@ -10,15 +9,12 @@
         </p>
     {% endif %}            
     {% endfor %}
-
-    <h2>Completed Tasks</h2>
-    {% for task in all_tasks %}
-    {% if task.completed == True %}
-        <p>
-            Task ID: {{task.id}}<br>
-            Task Description {{ task.description }}<br>
-        </p>
-    {% endif %}            
-    {% endfor %}
-   
-{% endblock body %}
+<div class='form'>
+    <form method='POST' action=''>
+        {{ form.hidden_tag() }}
+        {{ form.id.label }} {{ form.id }}<br>
+        {{ form.description.label }} {{ form.description }}<br>
+        {{ form.submit }}<br>
+    </form>
+</div>
+{% endblock %}
