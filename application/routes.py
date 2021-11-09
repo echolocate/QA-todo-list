@@ -22,10 +22,10 @@ def create_task():
 
     return render_template("create_task.html", title="Add a new task", form=form)
 
-@app.route('/update/task')
-def update_task():
-    form = UpdateForm()
-    # n = Tasks(id=form.id.data)
+@app.route('/update/task/<int:id>')
+def update_task(id):
+    form = TaskForm()
+    task = Tasks.query.get(id)
     # task.description = new_description
     # db.session.commit()
     return render_template("update_task.html", title="Update task", form=form)
