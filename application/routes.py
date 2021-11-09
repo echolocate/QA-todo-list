@@ -34,12 +34,19 @@ def read_tasks():
         )
     return tasks_dict
 
-@app.route('/update/task/<int:id>/<new_description>')
-def update_task(id, new_description):
+@app.route('/update/task/<int:id>', methods =['GET','POST'])
+def update_task(id):
+    form = TaskForm()
+
     task = Tasks.query.get(id)
-    task.description = new_description
+
+    if request.method == 'POST':
+        task.description = form.description.data
+        db.session.commit()
+        return redirect(url_for('home'))
+    
     db.session.commit()
-    return f"Task {id} updated to {new_description}"
+    return render_template('update_task.html', task=task, form=form)
 
 @app.route('/delete/task/<int:id>')
 def delete(id):
