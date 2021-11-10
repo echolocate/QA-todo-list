@@ -49,18 +49,18 @@ def update_task(id):
     return render_template('update_task.html', task=task, form=form)
 
 @app.route('/delete/task/<int:id>')
-def delete(id):
-    id_to_delete = Tasks.query.get(id)
-    db.session.delete(id_to_delete)
+def delete_task(id):
+    task = Tasks.query.get(id)
+    db.session.delete(task)
     db.session.commit()
-    return f"Deleted {id}"
+    return redirect(url_for('home'))
 
 @app.route('/complete/task/<int:id>')
 def completed(id):
     task = Tasks.query.get(id)
     task.completed = True
     db.session.commit()
-    return f"Task {id} marked as completed"
+    return redirect(url_for('home'))
 
 @app.route('/incomplete/task/<id>')
 def incomplete(id):
