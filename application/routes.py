@@ -67,4 +67,4 @@ def incomplete(id):
     task = Tasks.query.get(id)
     task.completed = False
     db.session.commit()
-    return f"Task {id} marked as incomplete"
+    return redirect(url_for('home'))
